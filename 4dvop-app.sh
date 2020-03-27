@@ -4,7 +4,7 @@
 # This script is compatible with centos OS
 
 ### Install and configure NGINX
-sudo apt-get -y update && sudo apt-get -y install epel-release && sudo apt-get -y install nginx git
+sudo yum -y update && sudo yum -y install epel-release && sudo yum -y install nginx git
 sudo rm -Rf /usr/share/nginx/html/*
 sudo git clone https://github.com/diranetafen/static-website-example.git /usr/share/nginx/html/
 sudo sed -i 's/80 default_server/8080 default_server/g' /etc/nginx/nginx.conf
@@ -12,7 +12,7 @@ sudo systemctl restart nginx
 sudo systemctl enable nginx
 
 ### Install and configure haproxy
-sudo apt-get install -y haproxy
+sudo yum install -y haproxy
 
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOT
 global
@@ -32,3 +32,6 @@ EOT
 sudo systemctl restart haproxy
 sudo systemctl enable haproxy
 
+### Open http port
+sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+sudo firewall-cmd --reload
